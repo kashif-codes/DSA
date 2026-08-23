@@ -12,7 +12,9 @@ class Solution {
 
         while(start <= end){
             int mid = start+(end-start)/2;
-
+            
+            // check if we can split the array 
+            // such that no parts has sum > mid
             if(canSplit(nums,k,mid)){
                 end = mid-1;
             }else{
