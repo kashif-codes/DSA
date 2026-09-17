@@ -12,13 +12,16 @@ class Solution {
         int leftSum = 0;
 
         for(int i = 0; i < nums.length; i++){
-            // 
+            // right Sum - nums[i] = sum of element after i
             if(leftSum == rightSum - nums[i]){
                 return i;
             }
+            // add current element from left
             leftSum += nums[i];
+            // remove current element from right
             rightSum -= nums[i];
         }
+        // if no pivot index is found
         return -1;
         
     }
