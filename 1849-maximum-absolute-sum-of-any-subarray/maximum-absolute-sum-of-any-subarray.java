@@ -1,4 +1,5 @@
-class Solution {
+
+        class Solution {
     public int maxAbsoluteSum(int[] nums) {
         // maximum sum at current index
         int currentMax = 0;
