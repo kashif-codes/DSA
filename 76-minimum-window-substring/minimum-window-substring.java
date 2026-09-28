@@ -1,69 +1,65 @@
+import java.util.HashMap;
 class Solution {
     public String minWindow(String s, String t) {
-
-        // Store frequency of characters required from t
-        Map<Character, Integer> map = new HashMap<>();
-
-        for (char ch : t.toCharArray()) {
-            map.put(ch, map.getOrDefault(ch, 0) + 1);
+         // store how many times each character is needed
+        HashMap<Character,Integer>map = new HashMap<>();
+        
+        for(int i = 0; i < t.length(); i++){
+            char ch = t.charAt(i);
+            map.put(ch,map.getOrDefault(ch,0)+1);
         }
+
+        // store character frequencies inside current window 
+        HashMap<Character,Integer>window = new HashMap<>();
 
         int left = 0;
         int right = 0;
+        
+        // number of different charcater whose required frequency is satisfied
+        int formed = 0;
 
-        // Number of characters from t that are currently satisfied
-        int count = 0;
+        // number of diffferent character we need to satisfy
+        int require = map.size();
 
+        //store the smallest window
         int minLength = Integer.MAX_VALUE;
         int start = 0;
 
-        while (right < s.length()) {
+        while(right < s.length()){
 
+            // add character at right to the window
             char ch = s.charAt(right);
+            window.put(ch,window.getOrDefault(ch,0)+1);
 
-            // If ch is required, reduce its required frequency
-            if (map.containsKey(ch)) {
-                map.put(ch, map.get(ch) - 1);
-
-                // This character contributes to satisfying t
-                if (map.get(ch) >= 0) {
-                    count++;
-                }
+            // if this chracter has the require frequencies
+            if(map.containsKey(ch) && window.get(ch).equals(map.get(ch))){
+                formed++;
             }
+            // window is valid so try to shrink
+            while(formed == require){
 
-            // Current window contains all characters of t
-            while (count == t.length()) {
-
-                // Update minimum window
-                if (right - left + 1 < minLength) {
-                    minLength = right - left + 1;
+                // update minimum window
+                if(right-left+1<minLength){
+                    minLength = right - left +1;
                     start = left;
                 }
-
+                // remove left character
                 char leftChar = s.charAt(left);
+                window.put(leftChar,window.get(leftChar)-1);
 
-                // Put the left character back
-                if (map.containsKey(leftChar)) {
-                    map.put(leftChar, map.get(leftChar) + 1);
-
-                    // Window is no longer valid
-                    if (map.get(leftChar) > 0) {
-                        count--;
-                    }
+                // if removing it makes the window invalid
+                if(map.containsKey(leftChar) && window.get(leftChar) < map.get(leftChar)){
+                    formed--;
                 }
-
                 left++;
             }
-
             right++;
         }
-
-        // No valid window found
-        if (minLength == Integer.MAX_VALUE) {
+        // no valid window found
+        if(minLength == Integer.MAX_VALUE){
             return "";
         }
-
-        return s.substring(start, start + minLength);
+        return s.substring(start,start+minLength);
+        
     }
 }
-  
