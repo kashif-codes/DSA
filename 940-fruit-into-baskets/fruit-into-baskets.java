@@ -1,33 +1,37 @@
-import java.util.HashMap;
 class Solution {
     public int totalFruit(int[] fruits) {
-        HashMap<Integer,Integer> map = new HashMap<>();
-
+        // store frequency in hashMap
+        HashMap<Integer,Integer>map = new HashMap<>();
+        //left pointer
         int left = 0;
-        int maxLength = 0;
-
+        // max fruits we got
+        int maxFruits = 0;
+        
+        // right pointer go through the array
         for(int right = 0; right < fruits.length; right++){
-           map.put(fruits[right],map.getOrDefault(fruits[right],0)+1);
+            // get the current character frequecy
+            map.put(fruits[right],map.getOrDefault(fruits[right],0)+1);
 
-           // more than two types of fruits
-
-           while(map.size() > 2){
-
-            // remove fruits at left
-            map.put(fruits[left] , map.get(fruits[left])-1);
-
-            // if count becomes 0, remove it from map
-
-            if(map.get(fruits[left]) == 0){
-                map.remove(fruits[left]);
-            }
-            left++;
+        // map size becomes greater than 2 , remove leftmost part from window
+        while(map.size() > 2){
+           map.put(fruits[left],map.get(fruits[left])-1);
+           
+           // if frequency become 0 , remove it from hash map
+           if(map.get(fruits[left]) == 0){
+            map.remove(fruits[left]);
            }
-           // current window has at most 2 types
-           maxLength = Math.max(maxLength , right-left + 1);
+           // left , move forward
+           left++;
         }
-        return maxLength;
-
+        // current fruits tilln now we get
+           int currFruits = right-left+1;
+        // update max fruits 
+           maxFruits = Math.max(maxFruits,currFruits);
+        
+        
+        }
+        // return maxFruits
+        return maxFruits;
         
     }
 }
