@@ -1,6 +1,6 @@
 class Solution {
     public boolean isAnagram(String s, String t) {
-        int m = s.length();
+       int m = s.length();
         int n = t.length();
         // if length is different they cannot be anagram
         if(m != n){
@@ -28,6 +28,5 @@ class Solution {
             // all frequencies are equal --> string are anagram
             return true;
         }
-        
     }
 }
